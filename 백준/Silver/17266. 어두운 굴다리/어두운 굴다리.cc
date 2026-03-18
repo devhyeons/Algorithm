@@ -24,24 +24,19 @@ struct Loca{
 bool availH(int h){
     vector<Loca> candi;
 
-    for (auto l : lights){
-        candi.push_back({max(0,l-h),min(n,l+h)});
-    }
+    // 시작점 체크
+    if (lights[0]-h > 0) return false;
 
-    if (candi[0].start != 0) {
-        return false;
-    }
-
-    int last = candi[0].last;
-    for (auto c : candi){
-        if (c.start > last){
+    int last = lights[0]+h;
+    for (int i=1; i<m; i++){
+        if (lights[i]-h > last){
             return false;
         }
-        last = c.last;
+        last = lights[i]+h;
     }
 
-    if (last == n) return true;
-    else return false;
+    // 끝점 체크
+    return last >= n;
 };
 
 int main() {
@@ -57,7 +52,7 @@ int main() {
 
     int left = 1;
     int right = n;
-    int ans;
+    int ans = n; //초기화 필수.
 
     while (left <= right){
         int mid = (left + right)/2;

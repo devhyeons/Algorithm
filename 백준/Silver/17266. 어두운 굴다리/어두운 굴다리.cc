@@ -17,12 +17,8 @@ using namespace std;
 int n,m;
 vector<int> lights;
 
-struct Loca{
-    int start,last;
-};
-
+// O(M) 시간복잡도
 bool availH(int h){
-    vector<Loca> candi;
 
     // 시작점 체크
     if (lights[0]-h > 0) return false;
@@ -54,6 +50,8 @@ int main() {
     int right = n;
     int ans = n; //초기화 필수.
 
+    
+    // O(LogN)
     while (left <= right){
         int mid = (left + right)/2;
         if (availH(mid)){
@@ -65,6 +63,7 @@ int main() {
         }
     }
 
+    // total = O(MlogN)
     cout << ans << "\n";
     return 0;
 }

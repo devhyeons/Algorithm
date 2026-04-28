@@ -1,76 +1,86 @@
 #include <iostream>
+#include <vector>
 #include <algorithm>
-#include <queue>
 #include <cmath>
+#include <climits>
+#include <queue>
 
 using namespace std;
 
-// n*m 행렬 맵 존재 0 : 이동가능, 1 : 이동 불가 벽
-// (1,1) -> (n,m) 까지 이동할 때 최단경로로 이동
-// 시작하는 칸과 끝나는 칸 포함 세기 (시작점부터 1)
-// 만약 이동 도중 경로가 짧아진다면, 한개의 벽 부수고 이동 가능
 
-// 한 칸에서 이동할 수 있는건 상하좌우 인접칸
-// 최단경로 구하기 -> BFS
+// 이동 중 한 개의 벽 부술 수 있다면, 한개 부수고 이동 가능
+// N : 1000, M : 1000 --> 백트래킹으로 1개 선택하는건 매우 시간 복잡도가 안맞을거같은데.. 2초라도,,
 
-//맵 주어질때 최단경로는?
+// 맵 주어질 때, 최단 경로 구하는 프로그램 작성
+// 최단 거리 출력, 불가능하면 -1 출력.
+int dist[1001][1001][2];
+bool visited[1001][1001][2] = {false};
+int board[1001][1001];
+
 
 int n,m;
-int board[1001][1001]; //현재까지 거리 왔을 때, 부순건지 안부순건지 확인하기 위함.
-int dist[1001][1001][2];
-int visited[1001][1001][2];
-
-int dx[4] = {0, 1, 0 ,-1};
+int dx[4] = {0,1,0,-1};
 int dy[4] = {1,0,-1,0};
 
-int bfs(){
-    queue<tuple<int,int,int>> q;
-    dist[0][0][0] = 1;
-    visited[0][0][0] = true;
-    q.emplace(0,0,0);
+int ans = -1;
+
+struct Cell{
+    int x,y, broken;
+};
+
+
+void bfs(int sx, int sy){
+    queue<Cell> q;
+    q.push({sx,sy, false});
+    dist[sx][sy][0] = 1;
+    visited[sx][sy][0] = true;
+
     while(!q.empty()){
-        auto [x,y,broken] = q.front();
+        auto [x,y,b] = q.front();
         q.pop();
 
         if (x == n-1 && y == m-1){
-            return dist[x][y][broken]; // 도착지에 도달했다면 최소값 바로 반환
+            ans = dist[x][y][b];
+            return;
         }
 
-        for (int dir = 0; dir<4; dir++){
+        for (int dir =0; dir<4; dir++){
             int nx = x + dx[dir];
             int ny = y + dy[dir];
 
-            if (nx < 0 || ny < 0 || nx >=n || ny >=m) continue;
-            if (board[nx][ny] == 0 && !visited[nx][ny][broken]) {
-                visited[nx][ny][broken] = true;
-                dist[nx][ny][broken] = dist[x][y][broken] + 1;
-                q.emplace(nx,ny,broken);
+            if (nx < 0 || ny < 0 || nx >=n || ny >=m ) continue;
+            if (board[nx][ny] == 1 && b==0 && !visited[nx][ny][1]) {
+                dist[nx][ny][1] = dist[x][y][b] + 1;
+                visited[nx][ny][1] = true;
+                q.push({nx,ny,1});
             }
 
-            else if (board[nx][ny] == 1 && broken == 0 && !visited[nx][ny][broken]) {
-                visited[nx][ny][1] = true;
-                dist[nx][ny][1] = dist[x][y][0] + 1;
-                q.emplace(nx,ny,1);
+            else if (board[nx][ny] == 0 && !visited[nx][ny][b]) {
+                dist[nx][ny][b] = dist[x][y][b] + 1;
+                visited[nx][ny][b] = true;
+                q.push({nx,ny,b});
             }
         }
     }
-    return -1;
+
 }
-
-string input;
-
 int main() {
-    ios::sync_with_stdio(0); // 이거 넣어주도록 하자..
-    cin.tie(NULL);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
     cin >> n >> m;
 
     for (int i=0; i<n; i++){
-        cin >> input;
-        for (int j=0; j<m; j++){
-            board[i][j] = (int)(input[j])-'0';
+        string s;
+        cin >> s;
+        for (int j=0; j<s.size(); j++){
+            int c = s[j]-'0';
+            board[i][j] = c;
         }
     }
 
-   cout << bfs() << "\n";
+    bfs(0,0);
+    cout << ans << "\n";
+
+    return 0;
 }

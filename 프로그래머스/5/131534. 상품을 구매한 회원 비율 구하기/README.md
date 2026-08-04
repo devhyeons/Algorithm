@@ -1,6 +1,6 @@
 # [level 5] 상품을 구매한 회원 비율 구하기 - 131534 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/131534) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/131534?gad_source=1&gad_campaignid=23716289893&gbraid=0AAAAAC_c4nDL6gF6iG3i04cQuKN8c_GdY&gclid=Cj0KCQjwm8bTBhDWARIsAC9Hi8lFWMVw7Ln2Ky1qb2pFGNVuuSPlqEwZs4XJiPFa0hUW5njpK-fO5BYaAr6yEALw_wcB) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 08월 02일 14:57:57
+2026년 08월 04일 20:54:03
 
 ### 문제 설명
 

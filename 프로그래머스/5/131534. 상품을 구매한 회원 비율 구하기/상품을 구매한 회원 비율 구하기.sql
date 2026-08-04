@@ -1,26 +1,19 @@
--- GENDER = 0 : 남자
--- 1 : 여자
+-- 2021년에 가입한 전체 회원 중
+-- 2021 가입 + 상품 구매 / 2021 전체 가입 회원 수
 
--- 2021년에 가입한 전체 회원중
--- 상품 구매한 호원 / 전체 가입 회원 
--- 년 월 별로 출력
-
--- 소수점 두번째에서 반올림
--- 년 기준 ASC, 월 기준 ASC 
+-- 년, 월, 별로 출력 SQL 문 작성
+-- 상품을 구매한 회원의 비율 두번째 자리에서 반올림 (ROund, 1 )
+-- 년 기준 ASC, 월기준 ASC
 WITH CNT as (
-    SELECT USER_ID
+    SELECT COUNT(DISTINCT USER_ID) as total
     FROM USER_INFO
     WHERE YEAR(JOINED) = '2021'
 )
 
-SELECT
-YEAR(o.SALES_DATE) AS YEAR,MONTH(o.SALES_DATE) AS MONTH,
-COUNT(DISTINCT o.USER_ID) AS PURCHASED_USERS,
-ROUND(
-        COUNT(DISTINCT o.USER_ID) / (SELECT COUNT(*) FROM CNT),
-        1
-    ) AS PURCHASED_RATIO
-FROM ONLINE_SALE as o JOIN CNT as c 
-on o.USER_ID = c.USER_ID
-GROUP BY YEAR(SALES_DATE), MONTH(SALES_DATE)
-ORDER BY YEAR(SALES_DATE) ASC, MONTH(SALES_DATE) ASC
+ SELECT YEAR(o.SALES_DATE) as YEAR, MONTH(o.SALES_DATE) as MONTH, 
+COUNT(DISTINCT u.USER_ID) as PURCHASED_USERS,
+ ROUND(COUNT(DISTINCT u.USER_ID)/c.total, 1) as PURCHASED_RATIO 
+ FROM USER_INFO as u JOIN ONLINE_SALE as o
+ ON u.USER_ID = o.USER_ID JOIN CNT as c
+ WHERE YEAR(u.JOINED) = '2021'
+ GROUP BY YEAR(o.SALES_DATE), MONTH(o.SALES_DATE)

@@ -1,0 +1,45 @@
+WITH Python AS (
+    SELECT CODE
+    FROM SKILLCODES
+    WHERE NAME = 'Python'
+),
+
+C_SHOP AS (
+    SELECT CODE
+    FROM SKILLCODES
+    WHERE NAME = 'C#'
+),
+
+FRONT AS (
+    SELECT SUM(CODE) AS CODE
+    FROM SKILLCODES
+    WHERE CATEGORY = 'Front End'
+)
+
+
+SELECT
+    CASE
+        WHEN d.SKILL_CODE & f.CODE > 0
+             AND d.SKILL_CODE & p.CODE > 0
+        THEN 'A'
+
+        WHEN d.SKILL_CODE & c.CODE > 0
+        THEN 'B'
+
+        WHEN d.SKILL_CODE & f.CODE > 0
+        THEN 'C'
+    END AS GRADE,
+    d.ID,
+    d.EMAIL
+
+FROM DEVELOPERS d
+CROSS JOIN Python p
+CROSS JOIN C_SHOP c
+CROSS JOIN FRONT f
+
+WHERE
+    (d.SKILL_CODE & f.CODE > 0 AND d.SKILL_CODE & p.CODE > 0)
+    OR (d.SKILL_CODE & c.CODE > 0)
+    OR (d.SKILL_CODE & f.CODE > 0)
+
+ORDER BY GRADE, ID;

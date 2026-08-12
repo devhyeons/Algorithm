@@ -40,12 +40,6 @@ int rotateTime(int x1, int y1, int x2, int y2){
         }
     }
     
-    int t1, t2, b1, b2;
-    t1 = arr[x1][y1];
-    t2 = arr[x1][y2];
-    b1 = arr[x2][y1];
-    b2 = arr[x2][y2];
-    
     // 하
     for (int j=y1; j<y2; j++){
         copyB[x2][j] = arr[x2][j+1];

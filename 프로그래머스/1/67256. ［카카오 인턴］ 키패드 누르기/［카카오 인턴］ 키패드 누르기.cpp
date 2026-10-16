@@ -22,6 +22,14 @@ using namespace std;
 // -> O(n^2) 이상 가능
 
 vector<pair<int,int>> board;
+struct hands{
+    int curX, curY;
+    bool s;
+};
+
+hands leftH;
+hands rightH;
+string answer ="";
 
 int checkHand(int a){
     if (a==1 || a==4 || a==7){
@@ -47,17 +55,22 @@ void setBoard(){
     }
 }
 
-struct hands{
-    int curX, curY;
-    bool hands;
-};
+void touchR(int n){
+     rightH.curX = board[n].first;
+            rightH.curY = board[n].second;
+            answer.push_back('R');
+}
+
+void touchL(int n){
+                                     leftH.curX = board[n].first;
+            leftH.curY = board[n].second;
+            answer.push_back('L');
+}
+
 
 string solution(vector<int> numbers, string hand) {
-    string answer = "";    
     setBoard();
     
-    hands leftH;
-    hands rightH;
     if (hand == "left"){
         leftH = {3,0,true};
         rightH = {3,2, false};
@@ -74,16 +87,12 @@ string solution(vector<int> numbers, string hand) {
         
         // 왼
         if (status == 1){
-            leftH.curX = board[n].first;
-            leftH.curY = board[n].second;
-            answer.push_back('L');
+            touchL(n);
         }
         
         // 오른
         else if (status == 2){
-            rightH.curX = board[n].first;
-            rightH.curY = board[n].second;
-            answer.push_back('R');
+           touchR(n);
         }
         
         // both 
@@ -99,31 +108,21 @@ string solution(vector<int> numbers, string hand) {
             
             
             if (leftDist > rightDist){
-                rightH.curX = board[n].first;
-                rightH.curY = board[n].second;
-                answer.push_back('R');
+               touchR(n);
             }
             
             else if (leftDist < rightDist){
-             leftH.curX = board[n].first;
-            leftH.curY = board[n].second;
-            answer.push_back('L');
+            touchL(n);
             }
             
             else{
-                cout << leftH.hands  << " = " << "\n";
-                cout <<rightH.hands << " = " << "\n";
-                if (leftH.hands){
+                if (leftH.s){
                     //왼손잡이
-                                 leftH.curX = board[n].first;
-            leftH.curY = board[n].second;
-            answer.push_back('L');
+                               touchL(n);
                 }
                 else {
                     // 오른손잡이
-                                   rightH.curX = board[n].first;
-                rightH.curY = board[n].second;
-                answer.push_back('R');
+                    touchR(n);
                 }
             }
             

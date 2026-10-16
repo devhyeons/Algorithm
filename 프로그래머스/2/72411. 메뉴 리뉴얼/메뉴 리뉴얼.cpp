@@ -23,7 +23,6 @@ using namespace std;
 // 가장 많이 함께 주문된 구성 여러개 > 모두 담아서 return
 
 unordered_map<string, int> m;
-bool visited[21];
 
 void makeSet(string o, int cnt, int idx, string s){
     if (s.size() == cnt){
@@ -32,23 +31,13 @@ void makeSet(string o, int cnt, int idx, string s){
     }
     
     for (int i=idx; i<o.size(); i++){
-        if (!visited[i]){
             s.push_back(o[i]);
-            visited[i] = true;
             makeSet(o, cnt, i+1, s);
-            visited[i] = false;
             s.pop_back();
-        }
     }
     return;
 }
 
-
-void initVisited(){
-    for (int i=0; i<21; i++){
-        visited[i] = false; 
-    }
-}
 
 vector<string> solution(vector<string> orders, vector<int> course) {
     vector<string> answer;
@@ -61,7 +50,6 @@ vector<string> solution(vector<string> orders, vector<int> course) {
         sort(o.begin(), o.end());
         
         for (auto c : course) {
-            initVisited();
             makeSet(o,c,0,"");
         }
     }

@@ -38,3 +38,11 @@
 | **희소 배열** | **Sparse Table** |
 | 네트워크 플로우 | 최대 유량, 이분 매칭 |
 | 실전 종합 | 삼성, 카카오, 복합 문제 |
+
+<!---LeetCode Topics Start-->
+# LeetCode Topics
+## Database
+|  |
+| ------- |
+| [1158-market-analysis-i](https://github.com/devhyeons/Algorithm/tree/master/1158-market-analysis-i) |
+<!---LeetCode Topics End-->

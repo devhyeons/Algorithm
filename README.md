@@ -45,6 +45,7 @@
 |  |
 | ------- |
 | [0197-rising-temperature](https://github.com/devhyeons/Algorithm/tree/master/0197-rising-temperature) |
+| [0619-biggest-single-number](https://github.com/devhyeons/Algorithm/tree/master/0619-biggest-single-number) |
 | [1070-product-sales-analysis-iii](https://github.com/devhyeons/Algorithm/tree/master/1070-product-sales-analysis-iii) |
 | [1158-market-analysis-i](https://github.com/devhyeons/Algorithm/tree/master/1158-market-analysis-i) |
 | [1211-queries-quality-and-percentage](https://github.com/devhyeons/Algorithm/tree/master/1211-queries-quality-and-percentage) |

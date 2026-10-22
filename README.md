@@ -52,4 +52,5 @@
 | [1321-restaurant-growth](https://github.com/devhyeons/Algorithm/tree/master/1321-restaurant-growth) |
 | [1378-replace-employee-id-with-the-unique-identifier](https://github.com/devhyeons/Algorithm/tree/master/1378-replace-employee-id-with-the-unique-identifier) |
 | [1581-customer-who-visited-but-did-not-make-any-transactions](https://github.com/devhyeons/Algorithm/tree/master/1581-customer-who-visited-but-did-not-make-any-transactions) |
+| [1667-fix-names-in-a-table](https://github.com/devhyeons/Algorithm/tree/master/1667-fix-names-in-a-table) |
 <!---LeetCode Topics End-->

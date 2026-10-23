@@ -1,54 +1,62 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include <iostream>
+
 using namespace std;
 
-// 영재가 실어야하는 택배상자 크기 모두 동일
-// 1~n번까지 번호 증가순서대로 일렬 놓여서 전달됨.
+// 택배상자 1~n번까지 번호 증가순 컨테이너 벨트 놓여서 전달
+// 컨테이너 벨트는 1번부터 놓인 순서대로 넣을 수 있.
+// 택배기사님이 알려준 순서대로 영재가 넣어야 함.
 
-// 컨테이너 벨트는 한 방향으로만 진행 가능해서, 벨트 놓인 순서대로 상자 내려
-// 택배기사님이 알려준 순서대로 영재가 택배상자를 실어야 함.
+// 현재 컨테이너 벨트 택배가 트럭 순서가 아니면
+// 그 상자를 트럭에 실을 순서가 될 때 까지 잠시 다른곳 보관
+// 보조 컨테이너 벨트에 둠.
+// 보조 컨테이너 벨트는 앞 뒤 이동 가능하지만, 맨 앞 상자만 뺄 수 있다. (LIFO) : Stack 
+// 보조 이용해도 원하는대로 못 실으면 더이상 x
 
-//만약 컨테이너 벨트 맨 앞 상자가, 현재 트럭에 싣는 순서 아니면
-// 그 상자를 트럭에 실을 순서 될때까지 잠시 다른곳 보관
-// 보조 컨테이너에 보관
+// 몇개 실을 수 있는가?
+stack<int> s;
 
-// 보조컨테이너는 벨트 앞뒤로 이동 가능핮지만, 입구 외에 다른 면 막혀있어
-// 맨 앞 상자만 뺄 수 있다. (stack)
-// 보조 이용해도 원하는대로 불가능 시 -> 더이상 상자 싣지 않음.
-
-// 택배 기사님 원하는 상자 순서 존재, 영재가 몇개 실을 수 있는지 return
-
-// order <= 10*^6
-vector<int> boxs;
-stack<long long> s;
+// order <= 10^6
 
 int solution(vector<int> order) {
-    long long answer = 0; 
-    long long cur = 1;
+    int answer = 0;
+    
+    vector<int> boxs;
+    
+    for (int i=0; i<order.size(); i++){
+        boxs.push_back(i+1);
+    }
+    
+    int idx = 0;
     
     for (auto o : order){
-     
-        while(cur < o){
-            s.push(cur);
-            cur++;
+        if (boxs[idx] == o){
+            answer ++;
+            idx ++;
         }
         
-        if (cur == o){
-            answer ++;
-            cur ++;
-        }
-        
-        else if(!s.empty() && s.top() == o){
-            s.pop();
-            answer ++;
+        else if (boxs[idx] < o){
+            while(idx < boxs.size() && boxs[idx] < o){
+                    s.push(boxs[idx]);
+                    idx ++;
+                }
+            
+                idx ++;
+                answer ++;
         }
         
         else {
-            break;
-        }     
-    }
-    
+                if (s.top() == o){
+                    answer ++;
+                    s.pop();
+                    continue;
+                }
+                
+                break;
+            }
+        }
     
     return answer;
 }
